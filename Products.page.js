@@ -25,7 +25,34 @@ class Products extends Page{
     //select brocolli Table quantity
     tablecells(row, column){ return $(`#productCartTables tbody tr:nth-child(${row}) td:nth-child(${column})`)}
 
+    //select total after discount
+    get totalAfterDiscount(){ return $('#root span.discountAmt')}
+
+    //select place order
+    get placeOrderBtn(){ return $('//*[@id="root"]/div/div/div/div/button')}
+
+    //select AgreeToTerms
+    get agreeToTerms(){ return $('.chkAgree')}
+
+    //select proceedBtn
+    get proceedBtn(){ return $('#root button')}
+
 //--------------------------------------------functions-------------------------------------------------
+
+async clickProceedBtn(){
+    await this.proceedBtn.click()
+    await browser.pause(3000)
+}
+
+async clickToAgree(){
+    await this.agreeToTerms.click()
+    await browser.pause(3000)
+}
+
+async clickPlaceOrderBtn(){
+    await this.placeOrderBtn.click()
+    await browser.pause(3000)
+}
 
 /**
  * Perform the process of adding any amount of each product to cart
@@ -35,7 +62,7 @@ class Products extends Page{
 async buyMany(productName,amount){
     this.searchForProduct(productName)//search for product
     await browser.pause(5000)
-    Array(amount - 1).fill().map( async ()=>{//increment no to buy, array starts from 0
+    Array(amount - 1).fill().map( async ()=>{//increment no to buy, 1 is already incremented on the site
        await this.clickIncrementBtn()
     })
     await browser.pause(5000) 
